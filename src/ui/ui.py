@@ -138,11 +138,20 @@ def display_result(title, result):
 
 def display_chat_interface(chat_history):
     st.markdown("### Chat History")
-    for i, message in enumerate(chat_history):
-        if i % 2 == 0:
-            st.markdown(f"**You:** {message}")
-        else:
-            st.markdown(f"**RAY:** {message}")
+    
+    formatted_history = format_chat_history(chat_history)
+    st.markdown(formatted_history)
     
     user_message = st.text_input("Your message:", key="user_input")
     return user_message
+
+def format_chat_history(chat_history):
+    formatted_history = ""
+    for entry in chat_history:
+        role = entry['role']
+        content = entry['content']
+        if role == 'user':
+            formatted_history += f"**You:**\n\n{content}\n\n"
+        elif role == 'assistant':
+            formatted_history += f"**RAY:**\n\n{content}\n\n"
+    return formatted_history
