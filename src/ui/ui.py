@@ -95,6 +95,16 @@ def apply_custom_css():
     .stMarkdown a:hover {
         color: #3700B3;
     }
+
+    /* Sticky input box */
+    .stTextInput {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: #121212;
+        padding: 1rem;
+        z-index: 1000;
+    }
     </style>
     """, unsafe_allow_html=True)
 
@@ -106,7 +116,7 @@ def setup_sidebar():
     with tabs[0]:  # Input tab
         mode = st.selectbox(
             "Select Search Mode",
-            ["global", "local", "vanilla"],
+            ["vanilla", "global", "local" ],
             help="Global: Broad knowledge. Local: Specific context. Vanilla: Basic RAG."
         )
         st.subheader("Manage RAY's Knowledge")
@@ -135,23 +145,5 @@ def display_result(title, result):
         st.write(f"**Tokens:** {result['Tokens']}")
         st.write(f"**LLM Calls:** {result['LLM Calls']}")
 
-def display_chat_interface(chat_history, sidebar=False):
-    if sidebar:
-        st.sidebar.markdown("### Chat History")
-        formatted_history = format_chat_history(chat_history)
-        st.sidebar.markdown(formatted_history)
-    else:
-        st.markdown("### Chat History")
-        formatted_history = format_chat_history(chat_history)
-        st.markdown(formatted_history)
-
-def format_chat_history(chat_history):
-    formatted_history = ""
-    for entry in chat_history:
-        role = entry['role']
-        content = entry['content']
-        if role == 'user':
-            formatted_history += f"**You:**\n\n{content}\n\n"
-        elif role == 'assistant':
-            formatted_history += f"**RAY:**\n\n{content}\n\n"
-    return formatted_history
+def display_chat_interface(conversations, sidebar=False):
+    pass  # Function no longer needed

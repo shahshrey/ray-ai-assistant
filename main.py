@@ -2,7 +2,7 @@ import asyncio
 import streamlit as st
 from src.config.config import INPUT_DIR, PROMPTS_DIR, BASE_DIR
 from src.engines import setup_engines, setup_search_engines
-from src.ui.ui import display_chat_interface, setup_page_config, apply_custom_css, setup_sidebar, display_result
+from src.ui.ui import setup_page_config, apply_custom_css, setup_sidebar, display_result
 from src.indexing.indexing import check_indexing_status, perform_indexing
 from src.utils.utils import initialize_directories, save_results_to_csv
 import os
@@ -71,27 +71,16 @@ def main():
 
     st.title("Chat with RAY")
     
-    # Initialize session state for chat history if it doesn't exist
-    if 'chat_history' not in st.session_state:
-        st.session_state.chat_history = []
-
-    # Display chat history in the sidebar
-    display_chat_interface(st.session_state.chat_history, sidebar=True)
-
     # Display user message input in the main area
     user_message = st.text_input("Your message:", key="user_input")
 
     if user_message:
-        st.session_state.chat_history.append({"role": "user", "content": user_message})
-        
         if mode == "global":
             logger.info(f"Processing global query: {user_message}")
             result = asyncio.run(process_query(user_message, global_search_engine, mode))
         else:
             logger.info(f"Processing local query: {user_message}")
             result = asyncio.run(process_query(user_message, local_search_engine, mode))
-        
-        st.session_state.chat_history.append({"role": "assistant", "content": result['Response']})
         
         # Display the latest result
         display_result(mode.capitalize(), result)
