@@ -13,14 +13,13 @@
 <div align="center">
   <a href="https://github.com/shahshrey/ray-ai-assistant/commits">
     <img src="https://img.shields.io/github/commit-activity/m/shahshrey/ray-ai-assistant" alt="git commit activity">
-
     <img src="https://img.shields.io/badge/License-MIT-yellow.svg?&color=3670A0" alt="License: MIT">
   </a>
 </div>
 <p align="center">
 <a href="https://github.com/shahshrey/ray-ai-assistant">🖇️ Repository</a>
 <span>&nbsp;&nbsp;•&nbsp;&nbsp;</span>
-<a href="#">📙 Documentation</a>
+<a href="https://github.com/shahshrey/ray-ai-assistant/blob/master/docs/doc.md">📙 Documentation</a>
 </p>
 
 <br/>
