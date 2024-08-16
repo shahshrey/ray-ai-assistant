@@ -104,7 +104,6 @@ def setup_sidebar():
     tabs = st.sidebar.tabs(["Input", "Model", "Search", "Advanced"])
     
     with tabs[0]:  # Input tab
-        user_input = st.text_area("Ask RAY a question:", height=150)
         mode = st.selectbox(
             "Select Search Mode",
             ["global", "local", "vanilla"],
@@ -128,7 +127,7 @@ def setup_sidebar():
     with tabs[3]:  # Advanced tab
         config["artifacts_dir"] = st.text_input("Knowledge Base Directory", value=ARTIFACTS_DIR)
     
-    return user_input, mode, config
+    return mode, config
 
 def display_result(title, result):
     with st.expander(f"{title} Search Results", expanded=True):
@@ -136,14 +135,15 @@ def display_result(title, result):
         st.write(f"**Tokens:** {result['Tokens']}")
         st.write(f"**LLM Calls:** {result['LLM Calls']}")
 
-def display_chat_interface(chat_history):
-    st.markdown("### Chat History")
-    
-    formatted_history = format_chat_history(chat_history)
-    st.markdown(formatted_history)
-    
-    user_message = st.text_input("Your message:", key="user_input")
-    return user_message
+def display_chat_interface(chat_history, sidebar=False):
+    if sidebar:
+        st.sidebar.markdown("### Chat History")
+        formatted_history = format_chat_history(chat_history)
+        st.sidebar.markdown(formatted_history)
+    else:
+        st.markdown("### Chat History")
+        formatted_history = format_chat_history(chat_history)
+        st.markdown(formatted_history)
 
 def format_chat_history(chat_history):
     formatted_history = ""

@@ -2,7 +2,7 @@ import asyncio
 import streamlit as st
 from src.config.config import INPUT_DIR, PROMPTS_DIR, BASE_DIR
 from src.engines import setup_engines, setup_search_engines
-from src.ui.ui import setup_page_config, apply_custom_css, setup_sidebar, display_result, display_chat_interface
+from src.ui.ui import display_chat_interface, setup_page_config, apply_custom_css, setup_sidebar, display_result
 from src.indexing.indexing import check_indexing_status, perform_indexing
 from src.utils.utils import initialize_directories, save_results_to_csv
 import os
@@ -31,8 +31,7 @@ def main():
     
     initialize_directories(INPUT_DIR, PROMPTS_DIR, BASE_DIR)
     
-    st.sidebar.title("RAY Configuration")
-    user_input, mode, config = setup_sidebar()
+    mode, config = setup_sidebar()
     
     files_exist = bool(os.listdir(INPUT_DIR))
     indexing_status = check_indexing_status()
@@ -76,8 +75,11 @@ def main():
     if 'chat_history' not in st.session_state:
         st.session_state.chat_history = []
 
-    # Display chat interface
-    user_message = display_chat_interface(st.session_state.chat_history)
+    # Display chat history in the sidebar
+    display_chat_interface(st.session_state.chat_history, sidebar=True)
+
+    # Display user message input in the main area
+    user_message = st.text_input("Your message:", key="user_input")
 
     if user_message:
         st.session_state.chat_history.append({"role": "user", "content": user_message})
